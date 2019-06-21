@@ -3,9 +3,12 @@ package com.cizuss.asynclol;
 import com.cizuss.asynclol.api.MatchAPI;
 import com.cizuss.asynclol.api.SummonerAPI;
 import com.cizuss.asynclol.dto.MatchDTO;
+import com.cizuss.asynclol.dto.MatchTimelineDTO;
 import com.cizuss.asynclol.dto.MatchlistDTO;
 import com.cizuss.asynclol.dto.SummonerDTO;
 import com.twitter.util.Future;
+
+import java.util.List;
 
 public class Client {
     protected SummonerAPI summonerAPI;
@@ -39,5 +42,17 @@ public class Client {
 
     public Future<MatchlistDTO> getMatchlistBySummonerName(String summonerName) {
         return getSummonerByName(summonerName).flatMap(s -> matchAPI.getMatchlistByEncryptedAccountId(s.getAccountId()));
+    }
+
+    public Future<MatchTimelineDTO> getMatchTimelineByMatchId(String matchId) {
+        return matchAPI.getMatchTimelineByMatchId(matchId);
+    }
+
+    public Future<List<Long>> getMatchIdsByTournamentCode(String tournamentCode) {
+        return matchAPI.getMatchIdsByTournamentCode(tournamentCode);
+    }
+
+    public Future<MatchDTO> getMatchByMatchIdAndTournamentCode(String matchId, String tournamentCode) {
+        return matchAPI.getMatchByMatchIdAndTournamentCode(matchId, tournamentCode);
     }
 }
