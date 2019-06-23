@@ -1,5 +1,6 @@
 package com.cizuss.asynclol;
 
+import com.cizuss.asynclol.api.ChampionAPI;
 import com.cizuss.asynclol.api.LeagueAPI;
 import com.cizuss.asynclol.api.MatchAPI;
 import com.cizuss.asynclol.api.SummonerAPI;
@@ -12,12 +13,14 @@ public class Client {
     protected SummonerAPI summonerAPI;
     protected MatchAPI matchAPI;
     protected LeagueAPI leagueAPI;
+    protected ChampionAPI championAPI;
 
     public Client(String host, String apiKey) {
         HttpClient httpClient = new HttpClient(host, apiKey);
         this.summonerAPI = new SummonerAPI(httpClient);
         this.matchAPI = new MatchAPI(httpClient);
         this.leagueAPI = new LeagueAPI(httpClient);
+        this.championAPI = new ChampionAPI(httpClient);
     }
 
     public Future<SummonerDTO> getSummonerByName(String name) {
@@ -78,5 +81,9 @@ public class Client {
 
     public Future<LeagueListDTO> getMasterLeagueByQueue(String queue) {
         return leagueAPI.getMasterLeagueByQueue(queue);
+    }
+
+    public Future<ChampionInfoDTO> getChampionRotation() {
+        return championAPI.getChampionRotation();
     }
 }
