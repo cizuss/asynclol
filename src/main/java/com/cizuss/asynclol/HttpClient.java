@@ -33,6 +33,9 @@ public class HttpClient {
         return service.apply(request).map(Message::getContentString).onFailure(err -> {
             err.printStackTrace();
             return BoxedUnit.UNIT;
+        }).onSuccess(res -> {
+            System.out.println(res);
+            return BoxedUnit.UNIT;
         });
     }
 }

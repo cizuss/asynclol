@@ -1,11 +1,9 @@
 package com.cizuss.asynclol;
 
+import com.cizuss.asynclol.api.LeagueAPI;
 import com.cizuss.asynclol.api.MatchAPI;
 import com.cizuss.asynclol.api.SummonerAPI;
-import com.cizuss.asynclol.dto.MatchDTO;
-import com.cizuss.asynclol.dto.MatchTimelineDTO;
-import com.cizuss.asynclol.dto.MatchlistDTO;
-import com.cizuss.asynclol.dto.SummonerDTO;
+import com.cizuss.asynclol.dto.*;
 import com.twitter.util.Future;
 
 import java.util.List;
@@ -13,11 +11,13 @@ import java.util.List;
 public class Client {
     protected SummonerAPI summonerAPI;
     protected MatchAPI matchAPI;
+    protected LeagueAPI leagueAPI;
 
     public Client(String host, String apiKey) {
         HttpClient httpClient = new HttpClient(host, apiKey);
         this.summonerAPI = new SummonerAPI(httpClient);
         this.matchAPI = new MatchAPI(httpClient);
+        this.leagueAPI = new LeagueAPI(httpClient);
     }
 
     public Future<SummonerDTO> getSummonerByName(String name) {
@@ -54,5 +54,29 @@ public class Client {
 
     public Future<MatchDTO> getMatchByMatchIdAndTournamentCode(String matchId, String tournamentCode) {
         return matchAPI.getMatchByMatchIdAndTournamentCode(matchId, tournamentCode);
+    }
+
+    public Future<LeagueListDTO> getChallengerLeaguesByQueue(String queue) {
+        return leagueAPI.getChallengerLeagueByQueue(queue);
+    }
+
+    public Future<List<LeagueEntryDTO>> getLeagueEntriesBySummonerName(String summonerName) {
+        return getSummonerByName(summonerName).flatMap(s -> leagueAPI.getLeagueEntriesBySummonerId(s.getId()));
+    }
+
+    public Future<List<LeagueEntryDTO>> getAllLeagueEntries(String queue, String tier, String division) {
+        return leagueAPI.getAllLeagueEntries(queue, tier, division);
+    }
+
+    public Future<LeagueListDTO> getGrandmasterLeagueByQueue(String queue) {
+        return leagueAPI.getGrandmasterLeagueByQueue(queue);
+    }
+
+    public Future<LeagueListDTO> getLeagueById(String id) {
+        return leagueAPI.getLeagueById(id);
+    }
+
+    public Future<LeagueListDTO> getMasterLeagueByQueue(String queue) {
+        return leagueAPI.getMasterLeagueByQueue(queue);
     }
 }
