@@ -12,6 +12,7 @@ public class Client {
     protected LeagueAPI leagueAPI;
     protected ChampionAPI championAPI;
     protected ChampionMasteryAPI championMasteryAPI;
+    protected SpectatorAPI spectatorAPI;
 
     public Client(String host, String apiKey) {
         HttpClient httpClient = new HttpClient(host, apiKey);
@@ -20,6 +21,7 @@ public class Client {
         this.leagueAPI = new LeagueAPI(httpClient);
         this.championAPI = new ChampionAPI(httpClient);
         this.championMasteryAPI = new ChampionMasteryAPI(httpClient);
+        this.spectatorAPI = new SpectatorAPI(httpClient);
     }
 
     public Future<SummonerDTO> getSummonerByName(String name) {
@@ -96,5 +98,13 @@ public class Client {
 
     public Future<Integer> getTotalMasteryScoreBySummonerName(String summonerName) {
         return getSummonerByName(summonerName).flatMap(s -> championMasteryAPI.getTotalMasteryScoreBySummonerId(s.getId()));
+    }
+
+    public Future<CurrentGameInfoDTO> getCurrentGameInformationBySummonerName(String summonerName) {
+        return getSummonerByName(summonerName).flatMap(s -> spectatorAPI.getGameInformationBySummonerId(s.getId()));
+    }
+
+    public Future<FeaturedGamesDTO> getListOfFeaturedGames() {
+        return spectatorAPI.getListOfFeaturedGames();
     }
 }
