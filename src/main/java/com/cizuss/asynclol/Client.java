@@ -15,14 +15,21 @@ public class Client {
     protected ChampionMasteryAPI championMasteryAPI;
     protected SpectatorAPI spectatorAPI;
 
+    private HttpClient httpClient;
+
     public Client(APIHost host, String apiKey) {
         HttpClient httpClient = new HttpClient(host, apiKey);
-        this.summonerAPI = new SummonerAPI(httpClient);
-        this.matchAPI = new MatchAPI(httpClient);
-        this.leagueAPI = new LeagueAPI(httpClient);
-        this.championAPI = new ChampionAPI(httpClient);
-        this.championMasteryAPI = new ChampionMasteryAPI(httpClient);
-        this.spectatorAPI = new SpectatorAPI(httpClient);
+        this.httpClient = httpClient;
+        this.summonerAPI = new SummonerAPI(this.httpClient);
+        this.matchAPI = new MatchAPI(this.httpClient);
+        this.leagueAPI = new LeagueAPI(this.httpClient);
+        this.championAPI = new ChampionAPI(this.httpClient);
+        this.championMasteryAPI = new ChampionMasteryAPI(this.httpClient);
+        this.spectatorAPI = new SpectatorAPI(this.httpClient);
+    }
+
+    public void setHost(APIHost host) {
+        httpClient.setHost(host);
     }
 
     public Future<SummonerDTO> getSummonerByName(String name) {

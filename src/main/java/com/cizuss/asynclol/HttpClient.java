@@ -8,20 +8,27 @@ import com.twitter.finagle.http.Request;
 import com.twitter.finagle.http.RequestBuilder;
 import com.twitter.finagle.http.Response;
 import com.twitter.util.Future;
+import lombok.Getter;
 import scala.runtime.Nothing$;
 
 public class HttpClient {
+    @Getter
     private APIHost host;
+
     private Service<Request, Response> service;
     private String apiKey;
 
     private final RequestBuilder.RequestEvidence<RequestBuilder.Valid, Nothing$> requestEvidence = new RequestBuilder.RequestEvidence<RequestBuilder.Valid, Nothing$>() {
     };
 
-    public HttpClient(APIHost host, String apiKey) {
+    public void setHost(APIHost host) {
         this.host = host;
-        this.apiKey = apiKey;
         this.service = Http.client().withTls(host.getValue()).newService(host.getValue() + ":443");
+    }
+
+    public HttpClient(APIHost host, String apiKey) {
+        this.apiKey = apiKey;
+        setHost(host);
     }
 
     public Future<String> doGet(String url) {
