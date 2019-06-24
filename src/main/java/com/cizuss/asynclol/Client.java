@@ -1,9 +1,6 @@
 package com.cizuss.asynclol;
 
-import com.cizuss.asynclol.api.ChampionAPI;
-import com.cizuss.asynclol.api.LeagueAPI;
-import com.cizuss.asynclol.api.MatchAPI;
-import com.cizuss.asynclol.api.SummonerAPI;
+import com.cizuss.asynclol.api.*;
 import com.cizuss.asynclol.dto.*;
 import com.twitter.util.Future;
 
@@ -14,6 +11,7 @@ public class Client {
     protected MatchAPI matchAPI;
     protected LeagueAPI leagueAPI;
     protected ChampionAPI championAPI;
+    protected ChampionMasteryAPI championMasteryAPI;
 
     public Client(String host, String apiKey) {
         HttpClient httpClient = new HttpClient(host, apiKey);
@@ -21,6 +19,7 @@ public class Client {
         this.matchAPI = new MatchAPI(httpClient);
         this.leagueAPI = new LeagueAPI(httpClient);
         this.championAPI = new ChampionAPI(httpClient);
+        this.championMasteryAPI = new ChampionMasteryAPI(httpClient);
     }
 
     public Future<SummonerDTO> getSummonerByName(String name) {
@@ -85,5 +84,17 @@ public class Client {
 
     public Future<ChampionInfoDTO> getChampionRotation() {
         return championAPI.getChampionRotation();
+    }
+
+    public Future<List<ChampionMasteryDTO>> getAllChampionMasteries(String summonerName) {
+        return getSummonerByName(summonerName).flatMap(s -> championMasteryAPI.getAllChampionMasteries(s.getId()));
+    }
+
+    public Future<ChampionMasteryDTO> getChampionMasteryBySummonerNameAndChampionId(String summonerName, int championId) {
+        return getSummonerByName(summonerName).flatMap(s -> championMasteryAPI.getChampionMasteryByPlayerIdAndChampionId(s.getId(), championId));
+    }
+
+    public Future<Integer> getTotalMasteryScoreBySummonerName(String summonerName) {
+        return getSummonerByName(summonerName).flatMap(s -> championMasteryAPI.getTotalMasteryScoreBySummonerId(s.getId()));
     }
 }
