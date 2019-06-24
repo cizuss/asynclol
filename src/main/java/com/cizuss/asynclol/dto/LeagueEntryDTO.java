@@ -4,23 +4,6 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-/*
-queueType	string
-summonerName	string
-hotStreak	boolean
-miniSeries	MiniSeriesDTO
-wins	int
-veteran	boolean
-losses	int
-rank	string
-leagueId	string
-inactive	boolean
-freshBlood	boolean
-tier	string
-summonerId	string	Player's summonerId (Encrypted)
-leaguePoints	int
- */
-
 @Data
 public class LeagueEntryDTO implements Serializable {
     private String queueType;

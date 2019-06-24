@@ -2,17 +2,6 @@ package com.cizuss.asynclol.dto;
 
 import lombok.Data;
 
-/*
-lane	string
-gameId	long
-champion	int
-platformId	string
-season	int
-queue	int
-role	string
-timestamp	long
- */
-
 @Data
 public class MatchReferenceDTO {
     private String lane;

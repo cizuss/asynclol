@@ -30,12 +30,6 @@ public class HttpClient {
         request.headerMap().put("X-Riot-Token", apiKey);
         request.headerMap().put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36");
 
-        return service.apply(request).map(Message::getContentString).onFailure(err -> {
-            err.printStackTrace();
-            return BoxedUnit.UNIT;
-        }).onSuccess(res -> {
-            System.out.println(res);
-            return BoxedUnit.UNIT;
-        });
+        return service.apply(request).map(Message::getContentString);
     }
 }

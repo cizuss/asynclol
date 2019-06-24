@@ -4,11 +4,6 @@ import lombok.Data;
 
 import java.util.List;
 
-/*
-freeChampionIdsForNewPlayers	List[int]
-freeChampionIds	List[int]
-maxNewPlayerLevel	int
- */
 
 @Data
 public class ChampionInfoDTO {

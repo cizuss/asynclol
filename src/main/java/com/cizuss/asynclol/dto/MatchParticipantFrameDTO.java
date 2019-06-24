@@ -1,18 +1,5 @@
 package com.cizuss.asynclol.dto;
 
-/*
-totalGold	int
-teamScore	int
-participantId	int
-level	int
-currentGold	int
-minionsKilled	int
-dominionScore	int
-position	MatchPositionDto
-xp	int
-jungleMinionsKilled	int
- */
-
 import lombok.Data;
 
 @Data
