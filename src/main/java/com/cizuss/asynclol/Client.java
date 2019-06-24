@@ -2,6 +2,7 @@ package com.cizuss.asynclol;
 
 import com.cizuss.asynclol.api.*;
 import com.cizuss.asynclol.dto.*;
+import com.cizuss.asynclol.enums.APIHost;
 import com.twitter.util.Future;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class Client {
     protected ChampionMasteryAPI championMasteryAPI;
     protected SpectatorAPI spectatorAPI;
 
-    public Client(String host, String apiKey) {
+    public Client(APIHost host, String apiKey) {
         HttpClient httpClient = new HttpClient(host, apiKey);
         this.summonerAPI = new SummonerAPI(httpClient);
         this.matchAPI = new MatchAPI(httpClient);
